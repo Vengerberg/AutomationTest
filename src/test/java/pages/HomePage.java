@@ -8,7 +8,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class HomePage extends BasePage {
 
+    private By loginButton = By.xpath("//*[contains(@href,'/login')]");
     private By productAddedText = By.xpath("//div[contains(@class,'modal show')]");
+    private By logoutButton = By.xpath("//a[contains(@href, '/logout')]");
+
+
 
     public HomePage(WebDriver driver, Actions actions, WebDriverWait wait) {
         super(driver, actions, wait);
@@ -25,22 +29,30 @@ public class HomePage extends BasePage {
         return driver.findElements(productAddedText).size() > 0;
     }
 
+    public void clickLogin() {
+        click(driver.findElement(loginButton));
+    }
+
+    public void clickLogout() {
+        click(driver.findElement(logoutButton));
+    }
+
     public String getProductId(String productName) {
         By productButton = By.xpath("(//p[contains(text(),'" + productName + "')]//..//a[contains(@class, 'btn btn-default add-to-cart')])[1]");
         return driver.findElement(productButton).getAttribute("data-product-id");
     }
 
     public String getCategoryId(String group, String type) {
-        By groupButton = By.xpath("//a[contains(@href, '" + group + "')][1]");
+        By groupButton = By.xpath("//a[contains(@href, '" + group +"')][1]");
         click(driver.findElement(groupButton));
 
-        By typeButton = By.xpath("//div[contains(@id, '" + group + "')]//a[contains(text(), '" + type + "')]");
+        By typeButton = By.xpath("//div[contains(@id, '"+ group +"')]//a[contains(text(), '"+ type +"')]");
         String[] href = driver.findElement(typeButton).getAttribute("href").split("/");
-        return href[href.length - 1];
+        return href[href.length-1];
     }
-
     public int getProductCount() {
         By products = By.xpath("//div[contains(@class, 'features_items')]//div[contains(@class, 'product-image-wrapper')]");
         return driver.findElements(products).size();
     }
+
 }

@@ -17,7 +17,7 @@ public class TestDeleteAccount extends BaseTest {
         deletePage = new DeletePage(driver, actions, wait);
     }
 
-    @Test
+    @Test(groups = {"delete"})
     public void testDeleteAccount() {
 
     }
