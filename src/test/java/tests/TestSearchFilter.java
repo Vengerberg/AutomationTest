@@ -1,5 +1,7 @@
 package tests;
 
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pages.HomePage;
@@ -18,5 +20,12 @@ public class TestSearchFilter extends BaseTest {
 
     @Test
     public void testFilterBySearch() {
+        driver.navigate().to(baseURL + productsPage.getRoute());
+        wait.until(ExpectedConditions.urlToBe(baseURL + productsPage.getRoute()));
+
+        String searchTerm = "Blue";
+        productsPage.search(searchTerm);
+
+        Assert.assertTrue(productsPage.productsContainSearchTerm(searchTerm));
     }
 }
