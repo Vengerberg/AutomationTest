@@ -45,7 +45,7 @@ public abstract class BaseTest {
 
     // Before/After Setup/Cleanup
 
-    @BeforeTest
+    @BeforeSuite
     public void initializeVariables() {
         System.setProperty("webdriver.chrome.driver",
                 "C:\\Windows\\chromedriver_win32\\chromedriver.exe");
@@ -62,7 +62,7 @@ public abstract class BaseTest {
 
         email = faker.bothify("???????9#@gmail.com");
         password = faker.bothify("????????###");
-        firstName = faker.name().lastName();
+        firstName = faker.name().firstName();
         lastName = faker.name().lastName();
         phone = faker.phoneNumber().cellPhone();
 
@@ -70,7 +70,7 @@ public abstract class BaseTest {
         birthMonth = faker.numerify("#");
         birthYear = faker.numerify("19##");
 
-        address = faker.address().secondaryAddress();
+        address = faker.address().streetAddress();
         country = "United States";
         city = faker.address().city();
         state = faker.address().state();
