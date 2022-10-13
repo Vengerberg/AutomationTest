@@ -8,6 +8,17 @@
 For testing <a href="https://www.automationexercise.com/">AutomationExercise.com </a> I opted for a functionality based approach
 and created test cases based on supported functionality of the website.
 
+## Tech Used
+
+---
+
+![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white)
+![Selenium](https://img.shields.io/badge/-selenium-%43B02A?style=for-the-badge&logo=selenium&logoColor=white)
+![TestNG](https://img.shields.io/badge/testng-%43B02A?style=for-the-badge&color=blueviolet)
+![Apache Maven](https://img.shields.io/badge/Apache%20Maven-C71A36?style=for-the-badge&logo=Apache%20Maven&logoColor=white)
+![Apache POI](https://img.shields.io/badge/Apache%20POI-C71A36?style=for-the-badge&logo=Apache%20Maven&logoColor=blue)
+![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)
+
 ## Test Plan
 
 ---
@@ -28,6 +39,4 @@ and created test cases based on supported functionality of the website.
 | Checkout Restrictions   |  Validating checkout restrictions based on login status  |
 | Product Details Display | Validating information displayed on product details page |
 | Payment Details Display |    Validating information displayed on payment page      |
-
-### 
 
