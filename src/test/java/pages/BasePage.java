@@ -7,6 +7,8 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.Objects;
+
 public abstract class BasePage {
 
     WebDriver driver;
@@ -37,18 +39,18 @@ public abstract class BasePage {
 
     protected void click(WebElement element) {
         scrollTo(element);
-
-        try {
-            element.click();
-        } catch(Exception e) {
-            scrollTo(element);
-            element.click();
-        }
+        element.click();
     }
 
     protected void scrollTo(WebElement element) {
-        actions.moveToElement(element);
-        actions.perform();
-        wait.until(ExpectedConditions.visibilityOf(element));
+
+        if (!Objects.isNull(element)) {
+            actions.moveToElement(element);
+            actions.perform();
+            wait.until(ExpectedConditions.visibilityOf(element));
+        } else {
+            throw new IllegalArgumentException("The scrollable Element should not be null");
+        }
+
     }
 }

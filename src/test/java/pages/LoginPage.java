@@ -8,7 +8,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class LoginPage extends BasePage {
 
     private String route = "login";
-    private By signupNameField = By.xpath("//form[contains(@action, '/signup')]//input[contains(@type, 'text')]");
+    private By signupNameField = By.xpath(XPaths.SIGN_UP_NAME_FIELD.getXpath());
     private By signupEmailField = By.xpath("//form[contains(@action, '/signup')]//input[contains(@type, 'email')]");
     private By signupButton = By.xpath("//form[contains(@action, '/signup')]//button");
 
