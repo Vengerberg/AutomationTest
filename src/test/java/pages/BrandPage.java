@@ -7,10 +7,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class BrandPage extends BasePage {
 
-    private String route = "brand_products/";
+    private final By products = By.xpath(XPaths.PRODUCTS.getXpath());
 
     public BrandPage(WebDriver driver, Actions actions, WebDriverWait wait) {
         super(driver, actions, wait);
+        route = "/brand_products/";
     }
 
     public String getRouteForBrand(String brand) {
@@ -18,7 +19,6 @@ public class BrandPage extends BasePage {
     }
 
     public int getProductCount() {
-        By products = By.xpath("//div[contains(@class, 'features_items')]//div[contains(@class, 'product-image-wrapper')]");
         return driver.findElements(products).size();
     }
 }

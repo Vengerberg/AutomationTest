@@ -8,13 +8,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class ProductsPage extends BasePage {
 
-    private String route = "products";
-    private By productAddedText = By.xpath("//div[contains(@class,'modal show')]");
-    private By productSearchField = By.xpath("//input[contains(@name, 'search')]");
-    private By productSearchButton = By.xpath("//button[contains(@id, 'submit_search')]");
+    private final By productAddedText = By.xpath(XPaths.PRODUCT_ADDED_TEXT.getXpath());
+    private final By productSearchField = By.xpath(XPaths.PRODUCT_SEARCH_FIELD.getXpath());
+    private final By productSearchButton = By.xpath(XPaths.PRODUCT_SEARCH_BUTTON.getXpath());
 
     public ProductsPage(WebDriver driver, Actions actions, WebDriverWait wait) {
         super(driver, actions, wait);
+        route = "/products";
     }
 
     public String getRoute() {
@@ -25,7 +25,6 @@ public class ProductsPage extends BasePage {
         By productButton = By.xpath("(//p[contains(text(),'" + productName + "')]//..//a[contains(@class, 'btn btn-default add-to-cart')])[1]");
 
         click(driver.findElement(productButton));
-
         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(productAddedText));
     }
 

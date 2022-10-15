@@ -8,15 +8,21 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class ProductDetailsPage extends BasePage {
 
-    private String route = "product_details/";
-    private By productAddedText = By.xpath("//div[contains(@class,'modal show')]");
-    private By popupViewCart = By.xpath("//div[contains(@class,'modal show')]//a[contains(@href, '/view_cart')]");
-    private By productButton = By.xpath("//button[contains(@class,'btn btn-default cart')]");
-    private By quantityField = By.xpath("//input[contains(@id,'quantity')]");
-
+    private final By productAddedText = By.xpath(XPaths.DETAILS_PRODUCT_ADDED_TEXT.getXpath());
+    private final By popupViewCart = By.xpath(XPaths.DETAILS_POPUP_VIEW_CART.getXpath());
+    private final By productButton = By.xpath(XPaths.DETAILS_PRODUCT_BUTTON.getXpath());
+    private final By quantityField = By.xpath(XPaths.DETAILS_QUANTITY.getXpath());
+    private final By productName = By.xpath(XPaths.DETAILS_PRODUCT_NAME.getXpath());
+    private final By productCost = By.xpath(XPaths.DETAILS_PRODUCT_COST.getXpath());
+    private final By reviewNameField = By.xpath(XPaths.DETAILS_REVIEW_NAME.getXpath());
+    private final By reviewEmailField = By.xpath(XPaths.DETAILS_REVIEW_EMAIL.getXpath());
+    private final By reviewCommentField = By.xpath(XPaths.DETAILS_COMMENT.getXpath());
+    private final By reviewSubmitButton = By.xpath(XPaths.DETAILS_REVIEW_SUBMIT.getXpath());
+    private final By reviewSuccessMessage = By.xpath(XPaths.DETAILS_REVIEW_SUCCESS_MSG.getXpath());
 
     public ProductDetailsPage(WebDriver driver, Actions actions, WebDriverWait wait) {
         super(driver, actions, wait);
+        route = "/product_details/";
     }
 
     public String getRouteForProduct(String productId) {
@@ -30,7 +36,7 @@ public class ProductDetailsPage extends BasePage {
 
     public void setQuantity(int quantity) {
         clearKeys(driver.findElement(quantityField));
-        sendKeys(driver.findElement(quantityField), "3");
+        sendKeys(driver.findElement(quantityField), String.valueOf(quantity));
     }
 
     public void clickViewCartFromPopup() {
@@ -41,4 +47,24 @@ public class ProductDetailsPage extends BasePage {
         return driver.findElements(productAddedText).size() > 0;
     }
 
+    public String getProductName() {
+        return driver.findElement(productName).getText();
+    }
+
+    public String getProductCost() {
+        return driver.findElement(productCost).getText();
+    }
+
+    public void writeReview(String name, String email, String comment) {
+        sendKeys(driver.findElement(reviewNameField), name);
+        sendKeys(driver.findElement(reviewEmailField), email);
+        sendKeys(driver.findElement(reviewCommentField), comment);
+
+        click(driver.findElement(reviewSubmitButton));
+    }
+
+    public boolean reviewSuccessMessageIsVisible() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(reviewSuccessMessage));
+        return driver.findElements(reviewSuccessMessage).size() > 0;
+    }
 }

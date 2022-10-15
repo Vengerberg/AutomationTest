@@ -6,11 +6,11 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class CategoryPage extends BasePage {
-
-    String route = "category_products/";
+    private final By products = By.xpath(XPaths.PRODUCTS.getXpath());
 
     public CategoryPage(WebDriver driver, Actions actions, WebDriverWait wait) {
         super(driver, actions, wait);
+        route = "/category_products/";
     }
 
     public String getRouteForCategory(String categoryId) {
@@ -18,7 +18,6 @@ public class CategoryPage extends BasePage {
     }
 
     public int getProductCount() {
-        By products = By.xpath("//div[contains(@class, 'features_items')]//div[contains(@class, 'product-image-wrapper')]");
         return driver.findElements(products).size();
     }
 }

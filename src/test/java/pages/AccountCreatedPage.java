@@ -7,12 +7,12 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class AccountCreatedPage extends BasePage {
 
-    private String route = "account_created";
-    private By confirmationMessage = By.xpath("//p[contains(text(), 'Congratulations')]");
-    private By continueButton = By.xpath("//a[contains(@data-qa, 'continue-button')]");
+    private final By confirmationMessage = By.xpath(XPaths.ACCOUNT_CREATION_CONFIRMATION_MESSAGE.getXpath());
+    private final By continueButton = By.xpath(XPaths.ACCOUNT_CREATION_CONTINUE_BUTTON.getXpath());
 
     public AccountCreatedPage(WebDriver driver, Actions actions, WebDriverWait wait) {
         super(driver, actions, wait);
+        route = "/account_created";
     }
 
     public String getRoute() {
@@ -27,3 +27,4 @@ public class AccountCreatedPage extends BasePage {
         click(driver.findElement(continueButton));
     }
 }
+

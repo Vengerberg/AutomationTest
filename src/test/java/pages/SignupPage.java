@@ -8,53 +8,53 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class SignupPage extends BasePage {
 
-    private String route = "signup";
-    private By nameField = By.xpath("//form//input[contains(@id, 'name')]");
-    private By emailField = By.xpath("//form//input[contains(@id, 'email')]");
+    private final By nameField = By.xpath(XPaths.SIGNUP_NAME_FIELD.getXpath());
+    private final By emailField = By.xpath(XPaths.SIGNUP_EMAIL_FIELD.getXpath());
+    private final By passwordField = By.xpath(XPaths.SIGNUP_PASSWORD_FIELD.getXpath());
+    private final By birthDateDay = By.xpath(XPaths.SIGNUP_BIRTH_DATE_DAY.getXpath());
+    private final By birthDateMonth = By.xpath(XPaths.SIGNUP_BIRTH_DATE_MONTH.getXpath());
+    private final By birthDateYear = By.xpath(XPaths.SIGNUP_BIRTH_DATE_YEAR.getXpath());
+    private final By firstNameField = By.xpath(XPaths.SIGNUP_FIRST_NAME_FIELD.getXpath());
 
-    private By passwordField = By.xpath("//form//input[contains(@id, 'password')]");
-    private By birthDateDay = By.xpath("//form//select[contains(@id, 'days')]");
-
-    private By birthDateMonth = By.xpath("//form//select[contains(@id, 'month')]");
-
-    private By birthDateYear = By.xpath("//form//select[contains(@id, 'year')]");
-    private By firstNameField = By.xpath("//form//input[contains(@id, 'first_name')]");
-
-    private By lastNameField = By.xpath("//form//input[contains(@id, 'last_name')]");
-    private By addressField = By.xpath("//form//input[contains(@id, 'address1')]");
-    private By countryField = By.xpath("//form//select[contains(@id, 'country')]");
-    private By stateField = By.xpath("//form//input[contains(@id, 'state')]");
-    private By cityField = By.xpath("//form//input[contains(@id, 'city')]");
-    private By zipField = By.xpath("//form//input[contains(@id, 'zip')]");
-    private By mobilePhoneField = By.xpath("//form//input[contains(@id, 'mobile')]");
-    private By createAccountButton = By.xpath("//form//button[contains(@data-qa, 'create-account')]");
-    private By emailAlreadyExistsMessage = By.xpath("//p[contains(text(), 'Email Address already exist')]");
+    private final By lastNameField = By.xpath(XPaths.SIGNUP_LAST_NAME_FIELD.getXpath());
+    private final By addressField = By.xpath(XPaths.SIGNUP_ADDRESS_FIELD.getXpath());
+    private final By countryField = By.xpath(XPaths.SIGNUP_COUNTRY_FIELD.getXpath());
+    private final By stateField = By.xpath(XPaths.SIGNUP_STATE_FIELD.getXpath());
+    private final By cityField = By.xpath(XPaths.SIGNUP_CITY_FIELD.getXpath());
+    private final By zipField = By.xpath(XPaths.SIGNUP_ZIP_FIELD.getXpath());
+    private final By mobilePhoneField = By.xpath(XPaths.SIGNUP_MOBILE_PHONE_FIELD.getXpath());
+    private final By createAccountButton = By.xpath(XPaths.SIGNUP_CREATE_ACCOUNT_BUTTON.getXpath());
+    private final By emailAlreadyExistsMessage = By.xpath(XPaths.SIGNUP_EMAIL_EXISTS_MESSAGE.getXpath());
 
     public SignupPage(WebDriver driver, Actions actions, WebDriverWait wait) {
         super(driver, actions, wait);
+        route = "/signup";
     }
 
     public String getRoute() {
         return route;
     }
 
-    public void signup(String firstName, String lastName, String password,
+    public void signup(String firstName, String lastName, String title, String password,
                        String day, String month, String year,
                        String address, String country, String state, String city, String zip,
                        String mobilePhoneNumber) {
+        By selectTitle = By.xpath("//input[@value='" + title + "']");
+        click(driver.findElement(selectTitle));
+
         sendKeys(driver.findElement(passwordField), password);
 
-        By selectDay = By.xpath("//form//select[contains(@id, 'days')]//option[contains(@value, '" + day + "')]");;
+        By selectDay = By.xpath("//form//select[contains(@id, 'days')]//option[contains(@value, '" + day + "')]");
         click(driver.findElement(birthDateDay));
         wait.until(ExpectedConditions.visibilityOfElementLocated(selectDay));
         driver.findElement(selectDay).click();
 
-        By selectMonth = By.xpath("//form//select[contains(@id, 'months')]//option[contains(@value, '" + month + "')]");;
+        By selectMonth = By.xpath("//form//select[contains(@id, 'months')]//option[contains(@value, '" + month + "')]");
         click(driver.findElement(birthDateMonth));
         wait.until(ExpectedConditions.visibilityOfElementLocated(selectMonth));
         driver.findElement(selectMonth).click();
 
-        By selectYear = By.xpath("//form//select[contains(@id, 'years')]//option[contains(@value, '" + year + "')]");;
+        By selectYear = By.xpath("//form//select[contains(@id, 'years')]//option[contains(@value, '" + year + "')]");
         click(driver.findElement(birthDateYear));
         wait.until(ExpectedConditions.visibilityOfElementLocated(selectYear));
         driver.findElement(selectYear).click();
