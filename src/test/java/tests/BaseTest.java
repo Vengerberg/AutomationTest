@@ -77,7 +77,6 @@ public abstract class BaseTest {
             // ublock origin having issues loading, using adblocker instead for FireFox tests
             // profile.addExtension(new File("extensions/FireFox/ublock_origin-1.44.4.xpi"));
             profile.addExtension(new File("extensions/FireFox/adblocker_ultimate-3.7.19.xpi"));
-            profile.setPreference("permissions.default.image", 2);
 
             FirefoxOptions options = new FirefoxOptions();
             options.setProfile(profile);

@@ -1,7 +1,9 @@
 package pages;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -38,9 +40,16 @@ public abstract class BasePage {
 
     protected void scrollTo(WebElement element) {
         if(!Objects.isNull(element)) {
-            actions.moveToElement(element);
-            actions.perform();
-            wait.until(ExpectedConditions.visibilityOf(element));
+            // https://stackoverflow.com/questions/3401343/scroll-element-into-view-with-selenium
+            // FireFox treats moveToElement as hover, not scroll, need to use script executor instead
+            if(driver instanceof FirefoxDriver) {
+                ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+                wait.until(ExpectedConditions.visibilityOf(element));
+            } else {
+                actions.moveToElement(element);
+                actions.perform();
+                wait.until(ExpectedConditions.visibilityOf(element));
+            }
         } else {
             throw new IllegalArgumentException("The scrollable Element should not be null");
         }
