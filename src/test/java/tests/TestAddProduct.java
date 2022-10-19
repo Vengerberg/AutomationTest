@@ -25,47 +25,45 @@ public class TestAddProduct extends BaseTest {
         cartPage = new CartPage(driver, actions, wait);
     }
 
-    @Test
-    public void testAddProductFromHomePage() {
-        homePage.addProduct("Blue Top");
-        Assert.assertTrue(homePage.productAddedPopupVisible());
+    @Test(dataProvider = "product-provider")
+    public void testAddProductFromHomePage(String productName) {
+        homePage.addProduct(productName);
+        Assert.assertTrue(homePage.productAddedPopupVisible(), "Popup should show that product was added to cart from home page");
     }
 
-    @Test
-    public void testAddProductFromProductPage() {
+    @Test(dataProvider = "product-provider")
+    public void testAddProductFromProductPage(String productName) {
         driver.navigate().to(baseURL + productsPage.getRoute());
         wait.until(ExpectedConditions.urlToBe(baseURL + productsPage.getRoute()));
-        productsPage.addProduct("Blue Top");
-        Assert.assertTrue(productsPage.productAddedPopupVisible());
+        productsPage.addProduct(productName);
+        Assert.assertTrue(productsPage.productAddedPopupVisible(), "Popup should show that product was added to cart from product page");
     }
 
-    @Test
-    public void testAddProductFromProductDetailsPage() {
-        String productId = homePage.getProductId("Blue Top");
+    @Test(dataProvider = "product-provider")
+    public void testAddProductFromProductDetailsPage(String productName) {
+        String productId = homePage.getProductId(productName);
         driver.navigate().to(baseURL + productDetailsPage.getRouteForProduct(productId));
         wait.until(ExpectedConditions.urlToBe(baseURL + productDetailsPage.getRouteForProduct(productId)));
         productDetailsPage.addProduct();
-        Assert.assertTrue(productDetailsPage.productAddedPopupVisible());
+        Assert.assertTrue(productDetailsPage.productAddedPopupVisible(), "Popup should show that product was added to cart from product details page");
     }
 
-    @Test
-    public void testAddMultipleQuantityFromProductDetailsPage() {
+    @Test(dataProvider = "product-provider")
+    public void testAddMultipleQuantityFromProductDetailsPage(String productName) {
         cartPage.emptyCart();
 
-        int quantity = 3;
-        String productId = homePage.getProductId("Blue Top");
+        int quantity = (int) (Math.random()*10)+1;
+        String productId = homePage.getProductId(productName);
         driver.navigate().to(baseURL + productDetailsPage.getRouteForProduct(productId));
         wait.until(ExpectedConditions.urlToBe(baseURL + productDetailsPage.getRouteForProduct(productId)));
 
         productDetailsPage.setQuantity(quantity);
         productDetailsPage.addProduct();
 
-        Assert.assertTrue(productDetailsPage.productAddedPopupVisible());
-
         productDetailsPage.clickViewCartFromPopup();
         wait.until(ExpectedConditions.urlToBe(baseURL + cartPage.getRoute()));
 
-        Assert.assertTrue(cartPage.getQuantityOfProduct("").equals(Integer.toString(quantity)));
+        Assert.assertTrue(cartPage.getQuantityOfProduct(productName).equals(Integer.toString(quantity)), "Quantity of product should be equal to quantity input from product details page");
     }
 
     @AfterMethod

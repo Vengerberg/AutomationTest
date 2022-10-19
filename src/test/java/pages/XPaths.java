@@ -75,7 +75,8 @@ public enum XPaths {
     HOME_DELETE_BTN("//a[contains(@href, '/delete_account')]"),
 
     // Delete XPaths
-    DELETE_DELETE_BTN("//button[@class='btn btn-danger']"),
+    DELETE_ACCOUNT_DELETED_HEADER("//b[contains(text(), 'Account Deleted!')]"),
+    DELETE_ACCOUNT_DELETED_MESSAGE("//p[contains(text(), 'account has been permanently deleted')]"),
 
     // Checkout XPaths
     CHECKOUT_DELIVERY_NAME("//ul[contains(@id, 'address_delivery')]//li[contains(@class, 'address_firstname address_lastname')]"),

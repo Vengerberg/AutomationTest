@@ -58,14 +58,6 @@ public class HomePage extends BasePage {
         click(driver.findElement(brandFilterButton));
     }
 
-    public void clickCategoryFilterButton(String group, String type) {
-        By groupButton = By.xpath("//a[contains(@href, '" + group +"')][1]");
-        click(driver.findElement(groupButton));
-
-        By typeButton = By.xpath("//div[contains(@id, '"+ group +"')]//a[contains(text(), '"+ type +"')]");
-        click(driver.findElement(typeButton));
-    }
-
     public String getProductId(String productName) {
         By productButton = By.xpath("(//p[contains(text(),'" + productName + "')]//..//a[contains(@class, 'btn btn-default add-to-cart')])[1]");
         return driver.findElement(productButton).getAttribute("data-product-id");

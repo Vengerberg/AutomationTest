@@ -18,18 +18,15 @@ public class TestBrandFilter extends BaseTest {
         brandPage = new BrandPage(driver, actions, wait);
     }
 
-    @Test
-    public void testFilterByBrand() {
-        String[] input = new String[]{"Polo", "Blue Top"};
-
+    @Test(dataProvider = "brand-provider")
+    public void testFilterByBrand(String productName) {
         int homePageProductCount = homePage.getProductCount();
 
-        driver.navigate().to(baseURL + brandPage.getRouteForBrand(input[0]));
-        wait.until(ExpectedConditions.urlToBe(baseURL + brandPage.getRouteForBrand(input[0])));
+        homePage.clickBrandFilterButton(productName);
+        wait.until(ExpectedConditions.urlToBe(baseURL + brandPage.getRouteForBrand(productName)));
 
         int brandPageProductCount = brandPage.getProductCount();
 
-        Assert.assertTrue(brandPageProductCount < homePageProductCount);
+        Assert.assertTrue(brandPageProductCount < homePageProductCount, "Displayed product count after brand filter should be less than home page product count");
     }
 }
-

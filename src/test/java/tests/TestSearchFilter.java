@@ -18,14 +18,13 @@ public class TestSearchFilter extends BaseTest {
         productsPage = new ProductsPage(driver, actions, wait);
     }
 
-    @Test
-    public void testFilterBySearch() {
+    @Test(dataProvider = "product-provider")
+    public void testFilterBySearch(String productName) {
         driver.navigate().to(baseURL + productsPage.getRoute());
         wait.until(ExpectedConditions.urlToBe(baseURL + productsPage.getRoute()));
 
-        String searchTerm = "Blue";
-        productsPage.search(searchTerm);
+        productsPage.search(productName);
 
-        Assert.assertTrue(productsPage.productsContainSearchTerm(searchTerm));
+        Assert.assertTrue(productsPage.productsContainSearchTerm(productName), "Displayed product count after search filter should be less than home page product count");
     }
 }

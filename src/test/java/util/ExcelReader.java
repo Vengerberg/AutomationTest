@@ -42,8 +42,6 @@ public class ExcelReader {
         int rowsCount = sheet.getLastRowNum() + 1;
         int colsCount = sheet.getRow(0).getLastCellNum();
 
-        System.out.println(rowsCount);
-        System.out.println(colsCount);
 
         String[][] res = new String[rowsCount][colsCount];
 

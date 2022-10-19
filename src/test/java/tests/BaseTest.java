@@ -1,5 +1,8 @@
 package tests;
 
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -12,8 +15,8 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import com.github.javafaker.Faker;
 import util.ExcelReader;
 
-
 import java.io.File;
+import java.sql.Timestamp;
 import java.time.Duration;
 
 public abstract class BaseTest {
@@ -47,7 +50,6 @@ public abstract class BaseTest {
 
     protected static String baseURL = "https://www.automationexercise.com";
 
-    protected static SoftAssert softAssert;
     protected static ExcelReader data;
 
     // Before/After Setup/Cleanup
@@ -94,24 +96,32 @@ public abstract class BaseTest {
         expirationYear = faker.numerify("####");
 
         data = new ExcelReader("AutomationTestData.xlsx");
-
-        softAssert = new SoftAssert();
-
-        // load products
-        // load brand
-        // load category
     }
 
     @BeforeMethod
     public void pageSetUp() {
         driver.navigate().to(baseURL);
         driver.manage().window().maximize();
+
+    }
+
+    @AfterMethod
+    public static void takeScreenshot() {
+        try {
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            String time = timestamp.toString().replaceAll(" ", "-").replaceAll(":", "-").replaceAll("\\.", "-");
+            TakesScreenshot scrShot =((TakesScreenshot)driver);
+            File SrcFile=scrShot.getScreenshotAs(OutputType.FILE);
+            File DestFile=new File(System.getProperty("user.dir") + "/screenshots/" + time + ".png");
+            FileUtils.copyFile(SrcFile, DestFile);
+        } catch(Exception e) {
+            System.out.println("Error taking screenshot");
+        }
     }
 
     @AfterSuite
     public void close() {
         // check for soft assert errors
-        softAssert.assertAll();
         driver.close();
         driver.quit();
     }
@@ -143,5 +153,3 @@ public abstract class BaseTest {
         return data.getCategories();
     }
 }
-
-
