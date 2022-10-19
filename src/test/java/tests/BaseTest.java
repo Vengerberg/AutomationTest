@@ -62,32 +62,45 @@ public abstract class BaseTest {
     public void initializeVariables(String browser) {
         // https://bonigarcia.dev/webdrivermanager/#setup <- Remove need for System properties/manual download of ChromeDriver
         if(browser.equalsIgnoreCase("chrome")) {
-            System.out.println("Chrome driver");
             WebDriverManager.chromedriver().setup();
 
             // https://chromedriver.chromium.org/extensions <-- Installing extensions reference
             ChromeOptions options = new ChromeOptions();
             options.addExtensions(new File("extensions/Chromium/ublock.crx"));
-            driver = new ChromeDriver(options);
+
+            try {
+                driver = new ChromeDriver(options);
+            } catch (Exception e) {
+                throw new IllegalArgumentException("Could not create driver, browser may not be installed");
+            }
         } else if(browser.equalsIgnoreCase("firefox")) {
-            System.out.println("FireFox driver");
             WebDriverManager.firefoxdriver().setup();
 
             FirefoxProfile profile = new FirefoxProfile();
             // ublock origin having issues loading, using adblocker instead for FireFox tests
             // profile.addExtension(new File("extensions/FireFox/ublock_origin-1.44.4.xpi"));
             profile.addExtension(new File("extensions/FireFox/adblocker_ultimate-3.7.19.xpi"));
+//            profile.setPreference("permissions.default.image", 2);
 
             FirefoxOptions options = new FirefoxOptions();
             options.setProfile(profile);
-            driver = new FirefoxDriver(options);
+
+            try {
+                driver = new FirefoxDriver(options);
+            } catch (Exception e) {
+                throw new IllegalArgumentException("Could not create driver, browser may not be installed");
+            }
         } else if(browser.equalsIgnoreCase("edge")) {
-            System.out.println("Edge driver");
             WebDriverManager.edgedriver().setup();
 
             EdgeOptions options = new EdgeOptions();
             options.addExtensions(new File("extensions/Chromium/ublock.crx"));
-            driver = new EdgeDriver(options);
+
+            try {
+                driver = new EdgeDriver(options);
+            } catch (Exception e) {
+                throw new IllegalArgumentException("Could not create driver, browser may not be installed");
+            }
         }
 
         actions = new Actions(driver);
