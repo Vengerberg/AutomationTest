@@ -6,10 +6,14 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.*;
-import org.testng.asserts.SoftAssert;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import com.github.javafaker.Faker;
@@ -53,16 +57,40 @@ public abstract class BaseTest {
     protected static ExcelReader data;
 
     // Before/After Setup/Cleanup
-    @BeforeSuite
-    public void initializeVariables() {
+    @BeforeTest
+    @Parameters({"browser"})
+    public void initializeVariables(String browser) {
         // https://bonigarcia.dev/webdrivermanager/#setup <- Remove need for System properties/manual download of ChromeDriver
-        WebDriverManager.chromedriver().setup();
+        if(browser.equalsIgnoreCase("chrome")) {
+            System.out.println("Chrome driver");
+            WebDriverManager.chromedriver().setup();
 
-        // https://chromedriver.chromium.org/extensions <-- Installing extensions reference
-        ChromeOptions options = new ChromeOptions();
-        options.addExtensions(new File("extensions/ublock.crx"));
+            // https://chromedriver.chromium.org/extensions <-- Installing extensions reference
+            ChromeOptions options = new ChromeOptions();
+            options.addExtensions(new File("extensions/Chromium/ublock.crx"));
+            driver = new ChromeDriver(options);
+        } else if(browser.equalsIgnoreCase("firefox")) {
+            System.out.println("FireFox driver");
+            WebDriverManager.firefoxdriver().setup();
 
-        driver = new ChromeDriver(options);
+            FirefoxProfile profile = new FirefoxProfile();
+            // ublock origin having issues loading, using adblocker instead for FireFox tests
+            // profile.addExtension(new File("extensions/FireFox/ublock_origin-1.44.4.xpi"));
+            profile.addExtension(new File("extensions/FireFox/adblocker_ultimate-3.7.19.xpi"));
+            profile.setPreference("permissions.default.image", 2);
+
+            FirefoxOptions options = new FirefoxOptions();
+            options.setProfile(profile);
+            driver = new FirefoxDriver(options);
+        } else if(browser.equalsIgnoreCase("edge")) {
+            System.out.println("Edge driver");
+            WebDriverManager.edgedriver().setup();
+
+            EdgeOptions options = new EdgeOptions();
+            options.addExtensions(new File("extensions/Chromium/ublock.crx"));
+            driver = new EdgeDriver(options);
+        }
+
         actions = new Actions(driver);
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
@@ -102,7 +130,6 @@ public abstract class BaseTest {
     public void pageSetUp() {
         driver.navigate().to(baseURL);
         driver.manage().window().maximize();
-
     }
 
     @AfterMethod
@@ -119,7 +146,7 @@ public abstract class BaseTest {
         }
     }
 
-    @AfterSuite
+    @AfterTest
     public void close() {
         // check for soft assert errors
         driver.close();

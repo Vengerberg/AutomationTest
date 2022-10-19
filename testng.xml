@@ -1,9 +1,48 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name = "AutomationExercise">
+<suite name = "AutomationExerciseFunctionalTests" parallel="instances">
 
-    <test name = "Functional">
+    <test name = "Functional Chrome">
+        <parameter name="browser" value="Chrome"/>
+        <classes>
+            <class name = "tests.TestSignup" />
+            <class name = "tests.TestAddProduct" />
+            <class name = "tests.TestBrandFilter" />
+            <class name = "tests.TestCategoryFilter" />
+            <class name = "tests.TestSearchFilter" />
+            <class name = "tests.TestCheckout" />
+            <class name = "tests.TestProductDetailsDisplayed" />
+            <class name = "tests.TestRemoveProduct" />
+            <class name = "tests.TestWriteReview" />
+            <class name = "tests.TestPayment" />
+            <class name = "tests.TestLogin" />
+            <class name = "tests.TestLogout" />
+            <class name = "tests.TestDeleteAccount" />
+        </classes>
+    </test>
+
+    <test name = "Functional FireFox">
+        <parameter name="browser" value="Firefox"/>
+        <classes>
+            <class name = "tests.TestSignup" />
+            <class name = "tests.TestAddProduct" />
+            <class name = "tests.TestBrandFilter" />
+            <class name = "tests.TestCategoryFilter" />
+            <class name = "tests.TestSearchFilter" />
+            <class name = "tests.TestCheckout" />
+            <class name = "tests.TestProductDetailsDisplayed" />
+            <class name = "tests.TestRemoveProduct" />
+            <class name = "tests.TestWriteReview" />
+            <class name = "tests.TestPayment" />
+            <class name = "tests.TestLogin" />
+            <class name = "tests.TestLogout" />
+            <class name = "tests.TestDeleteAccount" />
+        </classes>
+    </test>
+
+    <test name = "Functional Edge">
+        <parameter name="browser" value="Edge"/>
         <classes>
             <class name = "tests.TestSignup" />
             <class name = "tests.TestAddProduct" />
